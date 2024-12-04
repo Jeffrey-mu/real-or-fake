@@ -1,0 +1,405 @@
+/* 基础样式重置和全局设置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-primary);
+    background: var(--bg-gradient);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* 游戏容器 */
+.game-container {
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 
+        0 0 50px rgba(147, 86, 220, 0.2),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 装饰性背景元素 */
+.game-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, 
+        rgba(147, 86, 220, 0.1) 0%,
+        transparent 70%);
+    animation: rotate 20s linear infinite;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 计分板区域 */
+.score-board {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 15px 25px;
+    background: var(--panel-bg);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.score-item {
+    flex: 1;
+    position: relative;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.score-item:hover {
+    transform: translateY(-2px);
+}
+
+/* 图片展示区域 */
+.image-container {
+    margin: 30px auto;
+    height: 450px;
+    width: 95%;
+    max-width: 800px;
+    background: #1a1a2e;
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+#game-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 控制面板 */
+.control-panel {
+    position: relative;
+    background: var(--panel-bg);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 30px;
+    min-height: 200px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    min-height: 60px;
+}
+
+button {
+    min-width: 150px;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+#realBtn {
+    background: var(--btn-primary);
+    box-shadow: 0 0 20px rgba(0, 255, 221, 0.4);
+}
+
+#fakeBtn {
+    background: var(--btn-secondary);
+    box-shadow: 0 0 20px rgba(255, 54, 217, 0.4);
+}
+
+/* 结果面板 */
+.result-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(20px);
+    background: rgba(26, 26, 46, 0.95);
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    width: 90%;
+    max-width: 400px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.result-panel.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+    pointer-events: auto;
+}
+
+.result-panel .emoji {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.result-panel .message {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+#continueBtn {
+    width: 100%;
+    background: var(--btn-continue);
+    padding: 15px;
+    font-size: 18px;
+}
+
+/* 进度条样式 */
+.level-progress {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff36d9, #ff00cc);
+    transition: width 0.5s ease;
+}
+
+/* 添加响应式设计 */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 15px;
+    }
+    
+    .score-board {
+        flex-direction: column;
+    }
+    
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    button {
+        width: 100%;
+    }
+} 
+
+/* 主题切换器样式 */
+.theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0;
+    min-width: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.theme-btn.active {
+    border-color: #00ffdd;
+    box-shadow: 0 0 15px rgba(0, 255, 221, 0.4);
+}
+
+/* 主题变量 */
+:root {
+    /* 当前主题（赛博朋克） */
+    --bg-primary: #0f0c29;
+    --bg-gradient: radial-gradient(circle at center, #302b63 0%, #0f0c29 100%);
+    --accent-primary: #00ffdd;
+    --accent-secondary: #ff36d9;
+    --panel-bg: rgba(48, 43, 99, 0.6);
+    --btn-primary: linear-gradient(135deg, #00ffdd, #00ccb1);
+    --btn-secondary: linear-gradient(135deg, #ff36d9, #ff00cc);
+    --btn-continue: linear-gradient(135deg, #9356dc, #7c46b9);
+}
+
+/* 自然主题 */
+[data-theme="nature"] {
+    --bg-primary: #1a472a;
+    --bg-gradient: radial-gradient(circle at center, #2d5a40 0%, #1a472a 100%);
+    --accent-primary: #7fba00;
+    --accent-secondary: #ffb900;
+    --panel-bg: rgba(42, 71, 26, 0.6);
+    --btn-primary: linear-gradient(135deg, #7fba00, #5c8a00);
+    --btn-secondary: linear-gradient(135deg, #ffb900, #ff9100);
+    --btn-continue: linear-gradient(135deg, #00a36f, #008055);
+}
+
+/* 复古主题 */
+[data-theme="retro"] {
+    --bg-primary: #2c1810;
+    --bg-gradient: radial-gradient(circle at center, #4a2618 0%, #2c1810 100%);
+    --accent-primary: #ffd700;
+    --accent-secondary: #cd853f;
+    --panel-bg: rgba(44, 24, 16, 0.6);
+    --btn-primary: linear-gradient(135deg, #ffd700, #daa520);
+    --btn-secondary: linear-gradient(135deg, #cd853f, #8b4513);
+    --btn-continue: linear-gradient(135deg, #a0522d, #8b4513);
+}
+
+/* 霓虹主题 */
+[data-theme="neon"] {
+    --bg-primary: #000000;
+    --bg-gradient: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+    --accent-primary: #ff00ff;
+    --accent-secondary: #00ffff;
+    --panel-bg: rgba(26, 26, 26, 0.6);
+    --btn-primary: linear-gradient(135deg, #ff00ff, #cc00cc);
+    --btn-secondary: linear-gradient(135deg, #00ffff, #00cccc);
+    --btn-continue: linear-gradient(135deg, #ff00ff, #00ffff);
+}
+
+/* 浅色主题 */
+[data-theme="light"] {
+    --bg-primary: #f0f2f5;
+    --bg-gradient: radial-gradient(circle at center, #ffffff 0%, #f0f2f5 100%);
+    --accent-primary: #1890ff;
+    --accent-secondary: #722ed1;
+    --panel-bg: rgba(255, 255, 255, 0.9);
+    --btn-primary: linear-gradient(135deg, #1890ff, #096dd9);
+    --btn-secondary: linear-gradient(135deg, #722ed1, #531dab);
+    --btn-continue: linear-gradient(135deg, #52c41a, #389e0d);
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 为浅色主题添加特殊样式覆盖 */
+[data-theme="light"] .game-container {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 
+        0 0 50px rgba(0, 0, 0, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .score-board {
+    background: var(--panel-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .score-item {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .score-label {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .image-container {
+    background: white;
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .control-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .result-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .message {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .answer-text {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] button {
+    color: white;
+}
+
+[data-theme="light"] .theme-btn {
+    background: white;
+    border: 2px solid var(--border-color);
+}
+
+[data-theme="light"] .theme-btn.active {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 15px rgba(24, 144, 255, 0.4);
+}
+
+[data-theme="light"] .progress-bar {
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+}
+
+[data-theme="light"] .stats-row {
+    color: var(--text-secondary);
+}
+
+[data-theme="light"] .progress-text {
+    color: var(--text-secondary);
+}
+
+/* 使用变量更新现有样式 */
+.score-value {
+    color: var(--accent-primary);
+}
+
+.level-value {
+    color: var(--accent-secondary);
+}
