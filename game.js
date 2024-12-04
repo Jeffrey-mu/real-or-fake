@@ -71,19 +71,43 @@ class Game {
     }
     
     showNextImage() {
-        this.currentImageId = Math.floor(Math.random() * db.length);
+        // 先让当前图片滑出
+        if (this.imageElement.src) {
+            this.imageElement.classList.add('exit');
+        }
         
-        // 添加图片加载处理
-        this.imageElement.classList.add('loading');
-        this.imageElement.onload = () => {
-            this.imageElement.classList.remove('loading');
-            this.imageElement.classList.add('loaded');
+        // 创建新图片元素
+        const newImage = new Image();
+        newImage.id = 'game-image';
+        newImage.classList.add('loading');
+        
+        // 设置新图片源
+        this.currentImageId = Math.floor(Math.random() * db.length);
+        newImage.src = `db/pic/${this.currentImageId}.jpg`;
+        
+        // 当新图片加载完成时
+        newImage.onload = () => {
+            // 移除旧图片
+            if (this.imageElement.parentNode) {
+                this.imageElement.remove();
+            }
+            
+            // 添加新图片
+            document.querySelector('.image-container').appendChild(newImage);
+            
+            // 触发动画
+            setTimeout(() => {
+                newImage.classList.remove('loading');
+                newImage.classList.add('loaded');
+            }, 50);
+            
+            // 更新引用
+            this.imageElement = newImage;
         };
         
-        this.imageElement.src = `db/pic/${this.currentImageId}.jpg`;
         this.canAnswer = true;
         
-        // 隐藏结果面板
+        // 重置UI状态
         this.resultPanel.style.display = 'none';
         this.resultPanel.classList.remove('show');
         this.continueBtn.classList.remove('show');
